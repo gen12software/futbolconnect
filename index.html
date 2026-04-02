@@ -143,8 +143,11 @@
         <div id="steal-modal" class="modal hidden glass">
             <div class="modal-content">
                 <button class="close-modal" onclick="closeAllModals()">×</button>
-                <h3>¿Quién lo durmió?</h3>
+                <h3>¿Quién lo durmió? ⚡</h3>
                 <p>Cualquiera puede robar si mandó el "YO" primero:</p>
+                <div class="rules-alert glass" style="margin: 1rem 0; border-color: rgba(255, 100, 100, 0.4); background: rgba(255, 60, 60, 0.1); padding: 0.8rem; font-size: 0.9rem;">
+                    <span>⚠️ <b>OJO:</b> Al elegir al que robó se le sumarán los puntos y <b>no se puede volver atrás</b>. Confirmá con el resto antes de tocar.</span>
+                </div>
                 <div id="steal-candidates" class="grid-2"></div>
                 <button class="cancel-btn" onclick="document.getElementById('steal-modal').classList.add('hidden'); showSolution();">Nadie la sabía</button>
             </div>
