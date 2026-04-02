@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fútbol Connect | El Camino de los Clubes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <button id="global-fullscreen-btn" class="global-fullscreen-btn" title="Pantalla Completa">⛶ Pantalla Completa</button>
+        <!-- PANTALLA INICIO -->
+        <section id="start-screen" class="screen animate-in">
+            <div class="logo-container">
+                <h1 class="premium-title">Fútbol<span>Connect</span></h1>
+                <p class="subtitle">El Desafío de los Clubes y el Eslabón Perdido</p>
+                <p class="personal-note">"Espero les guste, los quiero mucho"</p>
+            </div>
+            
+            <div class="rules-alert glass animate-in-delayed">
+                <span class="pulse-icon">⚠️</span>
+                <span><b>LEER EL REGLAMENTO:</b> ES UN JUEGO PRO. NO HAY EXCUSAS DESPUÉS.</span>
+            </div>
+
+            <div class="game-intro card glass">
+                <h2>¿Cómo funciona el juego?</h2>
+                <div class="intro-grid">
+                    <div class="intro-box">
+                        <h3>1. El Objetivo</h3>
+                        <p>Tenés que <b>unir a dos cracks</b> a través de jugadores que compartieron <b>VESTUARIO</b> en los mismos <b>CLUBES</b>.</p>
+                        <p class="rule-highlight">🚫 <b>Selecciones Nacionales NO VALEN.</b></p>
+                    </div>
+                    <div class="intro-box">
+                        <h3>2. El Puntaje</h3>
+                        <ul class="points-summary">
+                            <li>🥇 <b>ORO:</b> Unís con MENOS jugadores de los pedidos.</li>
+                            <li>🥈 <b>PLATA:</b> Unís con la cantidad EXACTA que pide el nivel.</li>
+                            <li>🥉 <b>BRONCE:</b> Unís con MÁS jugadores (camino largo).</li>
+                        </ul>
+                    </div>
+                    <div class="intro-box">
+                        <h3>3. El Juego</h3>
+                        <p>Son 6 niveles. El orden de los jugadores <b>SE MEZCLA SOLO</b> al inicio de cada nivel para que sea 100% justo.</p>
+                    </div>
+                    <div class="intro-box">
+                        <h3>4. El Robo (Steal) ⚡</h3>
+                        <p>Aunque no sea tu turno, podés mandar <b>"¡YO!"</b> apenas sepas la respuesta para robarle los puntos al que está jugando si no la sabe.</p>
+                    </div>
+                    <div class="intro-box">
+                        <h3>5. El Tiempo ⏱️</h3>
+                        <p>El límite para pensar <b>"SE ARREGLA AHÍ"</b> entre todos (se recomienda 1 min) para que el juego sea dinámico.</p>
+                    </div>
+                    <div class="intro-box">
+                        <h3>6. La Máxima Aura 👑</h3>
+                        <p>El juego es realmente difícil. El que lo gane tendrá la mayor... <b>aaaaaaaauura</b>.</p>
+                    </div>
+                </div>
+                
+                <div class="classic-example">
+                    <b>EJEMPLO:</b> Unir a <b>Totti</b> con <b>Pirlo</b> <br>
+                    Totti <span class="arrow">➔</span> <span class="highlight">De Rossi</span> <span class="arrow">➔</span> Pirlo <br>
+                    <small>(Totti y De Rossi compartieron vestuario en la Roma. De Rossi y Pirlo también en la Juventus.)</small>
+                </div>
+            </div>
+
+            <div class="setup-card card glass">
+                <h3>Cargá a los 5 Jugadores</h3>
+                <div id="player-inputs">
+                    <input type="text" class="player-input" placeholder="Nombre Jugador 1" value="Cala">
+                    <input type="text" class="player-input" placeholder="Nombre Jugador 2" value="Dega">
+                    <input type="text" class="player-input" placeholder="Nombre Jugador 3" value="Juli">
+                    <input type="text" class="player-input" placeholder="Nombre Jugador 4" value="Guille">
+                    <input type="text" class="player-input" placeholder="Nombre Jugador 5" value="Confa">
+                </div>
+                <button id="start-game-btn" class="primary-btn">¡ARRANCAR EL JUEGO!</button>
+            </div>
+        </section>
+
+        <!-- PANTALLA JUEGO -->
+        <section id="game-screen" class="screen hidden">
+            <header class="game-header">
+                <div class="round-indicator">Desafío <span id="current-game-num">1</span>/30</div>
+                <div class="difficulty-tag" id="difficulty-level">Nivel 1</div>
+            </header>
+
+            <div class="game-layout">
+                <div class="main-column">
+                    <div class="challenge-card card glass">
+                        <div class="player-vs">
+                            <div class="player-box start-node">
+                                <h1 id="start-player-name">Messi</h1>
+                            </div>
+                            <div class="connection-dots">
+                                <div class="dots-wrapper">
+                                    <div class="dots-container" id="dots-container"></div>
+                                </div>
+                                <span class="info-text" id="required-count">Objetivo: 1 jugadores</span>
+                            </div>
+                            <div class="player-box end-node">
+                                <h1 id="end-player-name">Riquelme</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="turn-control card glass">
+                        <p class="turn-label">AHORA LE TOCA A:</p>
+                        <h4 id="active-player-name">Jugador 1</h4>
+                        <div class="action-buttons">
+                            <button id="solve-btn" class="primary-btn">¡LO SABE!</button>
+                            <button id="fail-btn" class="fail-btn">¡NO SABE / PASA!</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="score-column">
+                    <div class="scoreboard-card card glass">
+                        <h3>Puntajes</h3>
+                        <div id="score-list"></div>
+                        <button class="cancel-btn" style="margin-top: 1.5rem;" onclick="showResetModal()">Reiniciar Juego ⟲</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MODAL SELECCIÓN PUNTOS (REFEREE) -->
+        <div id="score-selection-modal" class="modal hidden glass">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeAllModals()">×</button>
+                <h3>¿Cómo lo sacó?</h3>
+                <p>Marcá cuántos jugadores usó para calcular los puntos:</p>
+                <div class="ref-buttons">
+                    <button class="ref-btn bonus" onclick="submitScore('less')" id="ref-less-btn">Uso menos</button>
+                    <button class="ref-btn normal" onclick="submitScore('exact')" id="ref-exact-btn">Uso los que pedía</button>
+                    <button class="ref-btn penalty" onclick="submitScore('more')" id="ref-more-btn">Uso más</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL ROBO -->
+        <div id="steal-modal" class="modal hidden glass">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeAllModals()">×</button>
+                <h3>¿Quién lo durmió?</h3>
+                <p>Cualquiera puede robar si mandó el "YO" primero:</p>
+                <div id="steal-candidates" class="grid-2"></div>
+                <button class="cancel-btn" onclick="document.getElementById('steal-modal').classList.add('hidden'); showSolution();">Nadie la sabía</button>
+            </div>
+        </div>
+
+        <!-- MODAL SOLUCIÓN -->
+        <div id="solution-modal" class="modal hidden glass">
+            <div class="modal-content large">
+                <button class="close-modal" onclick="handleNextChallenge()">×</button>
+                <header>
+                    <h3>Mirá cómo era el camino</h3>
+                    <p class="label">Este es solo un EJEMPLO de cómo podrías haber unido a estos dos:</p>
+                </header>
+                <div id="solution-path" class="path-display"></div>
+                <button id="next-game-btn" class="primary-btn full" onclick="handleNextChallenge()">Siguiente Desafío ➔</button>
+            </div>
+        </div>
+
+        <!-- MODAL INTRO NIVEL -->
+        <div id="level-intro-modal" class="modal hidden glass">
+            <div class="modal-content animate-in text-center">
+                <button class="close-modal" onclick="closeAllModals()">×</button>
+                <h1 class="highlight" id="intro-level-title">¡ARRANCA EL NIVEL 1!</h1>
+                <p id="intro-level-goal" class="intro-goal-text">Objetivo: Unir con 1 jugador</p>
+                <div class="points-guide">
+                    <div class="guide-item gold">
+                        <span class="guide-type">ORO (Uso menos)</span>
+                        <b id="lvl-p-less">30 pts</b>
+                    </div>
+                    <div class="guide-item silver">
+                        <span class="guide-type">PLATA (Usó los que pedía)</span>
+                        <b id="lvl-p-exact">20 pts</b>
+                    </div>
+                    <div class="guide-item bronze">
+                        <span class="guide-type">BRONCE (Usó más)</span>
+                        <b id="lvl-p-more">15 pts</b>
+                    </div>
+                </div>
+                <button class="primary-btn" style="width: 100%; margin-top: 2rem; font-size: 1.5rem;" onclick="closeAllModals()">ARRANQUEMOS</button>
+            </div>
+        </div>
+
+        <!-- MODAL CONFIRMACIÓN RESET -->
+        <div id="reset-confirm-modal" class="modal hidden glass">
+            <div class="modal-content">
+                <button class="close-modal" onclick="closeAllModals()">×</button>
+                <h3>¿Reiniciar todo?</h3>
+                <p>¿Estás seguro de que querés borrar todo el avance y empezar de cero?</p>
+                <div class="action-buttons" style="margin-top: 2rem;">
+                    <button class="primary-btn" onclick="confirmReset()">SÍ, BORRAR TODO</button>
+                    <button class="fail-btn" onclick="closeAllModals()">CANCELAR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANTALLA CIERRE -->
+        <section id="end-screen" class="screen hidden">
+            <div class="card glass animate-in text-center">
+                <h1 class="logo-font">🏆 ¡CAMPEÓN!</h1>
+                <div id="final-scores" class="final-score-list"></div>
+                <button class="primary-btn" onclick="location.reload()">Reiniciar Juego</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- MODAL PASSWORD -->
+    <div id="password-modal" class="modal hidden glass">
+        <div class="modal-content animate-in text-center">
+            <h2 class="premium-title" style="font-size: 2.2rem; margin-bottom: 2rem; line-height: 1.3;">Pone la clave para empezar el juego ⚽</h2>
+            <input type="password" id="game-password-input" class="player-input" placeholder="Clave de acceso" style="text-align: center; font-size: 1.5rem; margin-top: 1rem;">
+            <div id="password-error" class="hidden" style="color: #ff4d4d; margin-top: 0.5rem; font-weight: 600;">Clave incorrecta, amargo. 🤡</div>
+            <button id="confirm-password-btn" class="primary-btn" style="width: 100%; margin-top: 1.5rem;">INGRESAR AL JUEGO</button>
+            <button class="cancel-btn" onclick="document.getElementById('password-modal').classList.add('hidden')" style="margin-top: 1rem;">Cancelar</button>
+        </div>
+    </div>
+
+    <script type="module" src="game.js"></script>
+</body>
+</html>
